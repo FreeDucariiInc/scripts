@@ -8,10 +8,16 @@ Anyone is welcome to contribute, as long as they follow the [Pull request guide]
 
 You may create a pull request if you wish to contribute scripts or changes otherwise, provided you follow a couple of rules.
 
-1. Do not touch other people's scripts.
-2. You **MUST** create a folder for your own script.
+1. Do not touch other people's scripts without the approval of the author / co-authors. Improvements to scripts are allowed but you **MUST** ask for permission first.
+2. You **MUST** create a folder for your own script, do not put more than one script in one folder.
 3. In said folder, make a [README.md](example/example%20lua/readme.md), based on the template.
 4. Do not upload obfuscated / malicious luas.
+5. Do not upload meaningless scripts (as judged by the community).
+6. Do not upload other people's scripts for them.
 
 You may find the template to follow in [example](example/example%20lua/)
 You must change the information in it accordingly.
+
+## Joining the organization
+
+We are more than welcoming to any lua coders that are willing to join our organization as a member & contributor. For more information please contact dhdj#1740 or tox#9318.
