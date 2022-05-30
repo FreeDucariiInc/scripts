@@ -6,6 +6,7 @@ Anyone is welcome to contribute, as long as they follow the [Pull request guide]
 
 ## Lua index
 - Library
+- - [hooking library](library/hooking%20library)
 - Meme
 - Misc
 - Rage
