@@ -4,6 +4,13 @@ This is a collection of scripts, that were either not allowed to be on the forum
 
 Anyone is welcome to contribute, as long as they follow the [Pull request guide](#pull-request-guide)
 
+## Lua index
+- Library
+- Meme
+- Misc
+- Rage
+- - [visualize hitscan & automatic peek (ai peek)](rage/visualize%20hitscan%20%26%20automatic%20peek%20%20%28ai%20peek%29)
+
 ## Pull request guide
 
 You may create a pull request if you wish to contribute scripts or changes otherwise, provided you follow a couple of rules.
@@ -14,6 +21,7 @@ You may create a pull request if you wish to contribute scripts or changes other
 4. Do not upload obfuscated / malicious luas.
 5. Do not upload meaningless scripts (as judged by the community).
 6. Do not upload other people's scripts for them.
+7. Modify the lua index, after adding your lua.
 
 You may find the template to follow in [example](example/example%20lua/)
 You must change the information in it accordingly.
