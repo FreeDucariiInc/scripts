@@ -49,6 +49,10 @@ local function dist_to (vec1, vec2)
     return math.sqrt(math.pow(vec1.x - vec2.x, 2) + math.pow(vec1.y - vec2.y, 2) + math.pow(vec1.z - vec2.z, 2))
 end
 
+local function dist_to_2d (vec1, vec2)
+    return math.sqrt(math.pow(vec1.x - vec2.x, 2) + math.pow(vec1.y - vec2.y, 2))
+end
+
 local function getCameraPositionInaccurate()
     local local_player = entity_list.get_local_player()
     local eye_pos = local_player:get_eye_position()
@@ -127,7 +131,9 @@ local hitscan = { 4, 2, 0, 6 }
 local eye_pos = vec3_t(0, 0, 0)
 local auto_side = 0
 
-local function handle_auto_peek(cmd, origin, pos)
+local last_auto_peek = false
+
+local function handle_auto_peek(cmd, origin, pos, speed)
     if pos == nil or origin == nil then
         return
     end
@@ -136,14 +142,15 @@ local function handle_auto_peek(cmd, origin, pos)
     local view = engine.get_view_angles()
     local viewyaw = view.y - 180
     local moveangle = (adjustAngle(angle2pos - viewyaw) + 90) * (math.pi / 180)
-    cmd.move.x = math.cos(moveangle) * 450
-    cmd.move.y = math.sin(moveangle) * 450
+    cmd.move.x = math.cos(moveangle) * speed
+    cmd.move.y = math.sin(moveangle) * speed
 end
 
 local function on_setup_command(cmd)
     if not enabled_ref:get() then
         hit_pos = {}
         hit_size = {}
+        last_auto_peek = false
         return
     end
     local local_player = entity_list.get_local_player()
@@ -157,6 +164,9 @@ local function on_setup_command(cmd)
         end
     end
     if #enemies == 0 then
+        hit_pos = {}
+        hit_size = {}
+        last_auto_peek = false
         return
     end
 
@@ -168,18 +178,13 @@ local function on_setup_command(cmd)
     if cameraPos == nil then
         return
     end
-    if peek_ref:get() then
-        if auto_peek_ref:get() and not last_auto_peek then
-            eye_pos = local_player:get_eye_position()
-            auto_side = 0
-        end
-        last_auto_peek = auto_peek_ref:get()
-        if not last_auto_peek then
-            eye_pos = local_player:get_eye_position()
-        end
-    else
+    if peek_ref:get() and not last_auto_peek then
+        eye_pos = local_player:get_eye_position()
+        auto_side = 0
+    elseif not peek_ref:get() then
         eye_pos = local_player:get_eye_position()
     end
+    last_auto_peek = peek_ref:get()
 
     local enemy_pos = enemy:get_render_origin()
     local vec2enemy_x, vec2enemy_y = eye_pos.x - enemy_pos.x, eye_pos.y - enemy_pos.y
@@ -208,7 +213,8 @@ local function on_setup_command(cmd)
             if auto_side == 0 then
                 auto_side = eye_left
             end
-            goto auto
+            goto
+            auto
         end
         local trace_result_right = trace.bullet(eye_right, hitpos, local_player, enemy)
         if (trace_result_right.valid and trace_result_right.damage > (trace_result_right.pen_count > 0 and dmg_hid or dmg_vis)) then
@@ -217,7 +223,8 @@ local function on_setup_command(cmd)
             if auto_side == 0 then
                 auto_side = eye_right
             end
-            goto auto
+            goto
+            auto
         end
         local trace_result_mid = trace.bullet(eye_pos, hitpos, local_player, enemy)
         if (trace_result_mid.valid and trace_result_mid.damage > (trace_result_mid.pen_count > 0 and dmg_hid or dmg_vis)) then
@@ -236,15 +243,16 @@ local function on_setup_command(cmd)
             break
         end
     end
-    if peek_ref:get() and last_auto_peek then
+    if last_auto_peek then
         if not dopeek or not client.can_fire() then
             auto_side = 0
-            if dist_to(eye_pos, local_player:get_render_origin()) > 2 then
-                handle_auto_peek(cmd, local_player:get_render_origin(), eye_pos)
+            local distance = dist_to_2d(eye_pos, local_player:get_render_origin())
+            if distance > 1 then
+                handle_auto_peek(cmd, local_player:get_render_origin(), eye_pos, math.max(10, math.min(450, math.pow(distance, 2.5))))
             end
         else
             if auto_side ~= 0 then
-                handle_auto_peek(cmd, local_player:get_render_origin(), auto_side)
+                handle_auto_peek(cmd, local_player:get_render_origin(), auto_side, 450)
             end
         end
     end
@@ -322,6 +330,13 @@ callbacks.add(e_callbacks.EVENT, on_player_death, "player_death")
 local function on_paint()
     if not enabled_ref:get() then
         return
+    end
+
+    if last_auto_peek then
+        local screen_pos = render.world_to_screen(vec3_t(eye_pos.x, eye_pos.y, eye_pos.z - 16))
+        if screen_pos ~= nil then
+            render.circle_filled(screen_pos, 25, color)
+        end
     end
 
     local cbr, cbg, cbb = color_border.r, color_border.g, color_border.b
