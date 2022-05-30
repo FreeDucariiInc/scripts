@@ -4,7 +4,7 @@ This is a collection of scripts, that were either not allowed to be on the forum
 
 Anyone is welcome to contribute, as long as they follow the [Pull request guide](#pull-request-guide)
 
-## Pull request guide {#pull-request-guide}
+## Pull request guide
 
 You may create a pull request if you wish to contribute scripts or changes otherwise, provided you follow a couple of rules.
 
