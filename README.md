@@ -8,6 +8,7 @@ Anyone is welcome to contribute, as long as they follow the [Pull request guide]
 - Library
 - - [hooking library](library/hooking%20library)
 - Meme
+- - [legitbot](misc/legitbot)
 - Misc
 - - [auto accept matchmaking](misc/auto%20accept%20matchmaking)
 - Rage
