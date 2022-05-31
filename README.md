@@ -32,6 +32,10 @@ You may create a pull request if you wish to contribute scripts or changes other
 You may find the template to follow in [example](example/example%20lua/)
 You must change the information in it accordingly.
 
+## Open source license
+
+You may choose your own open source license instead of the default MIT license by putting your own LICENSE file under your script's directory.
+
 ## Joining the organization
 
 We are more than welcoming to any lua coders that are willing to join our organization as a member & contributor. For more information please contact dhdj#1740 or tox#9318.
