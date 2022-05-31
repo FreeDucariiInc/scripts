@@ -2,7 +2,7 @@
 
 ## info
 
-> author: Kerim
+> author: Kerim\
 > version: 1.0
 
 ## description

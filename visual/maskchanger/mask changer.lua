@@ -118,7 +118,6 @@ callbacks.add(e_callbacks.PAINT, function()
 
         if tonumber(m_iAddon) == 16 and modelIndex ~= -1 then -- face mask addon bits
             local entity = nativeClientEntityListGetClientEntityFromHandle(m_pEnt)
-            print(tostring(ffi.string(nativeCBaseEntityGetClassName(entity))))
             nativeCBaseEntitySetModelIndex(entity, modelIndex)
         end
     end
