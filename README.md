@@ -13,6 +13,8 @@ Anyone is welcome to contribute, as long as they follow the [Pull request guide]
 - Rage
 - - [mm fake duck](rage/mm%20fake%20duck)
 - - [visualize hitscan & automatic peek (ai peek)](rage/visualize%20hitscan%20%26%20automatic%20peek%20%20%28ai%20peek%29)
+- Visual
+- - [mask changer](visual/maskchanger)
 
 ## Pull request guide
 
