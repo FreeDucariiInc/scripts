@@ -8,6 +8,7 @@ Anyone is welcome to contribute, as long as they follow the [Pull request guide]
 - Library
 - - [hooking library](library/hooking%20library)
 - - [vector library](library/vector)
+- - [VDebugOverlay004 interface library](library/VDebugOverlay004%20library)
 - Meme
 - - [legitbot](meme/legitbot)
 - Misc
