@@ -1,5 +1,4 @@
 local hook = require("hooking library")
-require("vector")
 
 local __thiscall = function(func, this)
     return function(...)
@@ -22,6 +21,11 @@ local vtable_thunk = function(i, ct)
 end
 
 ffi.cdef[[
+    typedef struct{
+        float x;
+        float y;
+        float z;
+    } Vector;
     typedef struct{
         char _0x0000[16];
         __int32 x; //0x0010 
@@ -68,11 +72,11 @@ local function angle_to_vector (angle)
     return vec3_t(math.cos(pitch) * math.cos(yaw), math.cos(pitch) * math.sin(yaw), -math.sin(pitch))
 end
 
-local function getCameraPositionInaccurateforce)
+local function getCameraPositionInaccurate(force)
     local local_player = entity_list.get_local_player()
     local eye_pos = local_player:get_eye_position()
     if force then
-        eye_pos.z = local_player:get_prop("m_vecOrigin").z+64
+        eye_pos.z = local_player:get_prop("m_vecOrigin[2]")+64
     end
     if not client.is_in_thirdperson() then
         return eye_pos
@@ -80,16 +84,16 @@ local function getCameraPositionInaccurateforce)
     local local_angle = angle_to_vector(engine.get_view_angles())
     local camera_pos = vec3_t(local_angle.x * -130 + eye_pos.x, local_angle.y * -130 + eye_pos.y, local_angle.z * -130 + eye_pos.z)
     local trace_result = trace.line(eye_pos, camera_pos, local_player)
-    local camera_pos = Vector(local_angle.x * -128 * trace_result.fraction + eye_pos.x, local_angle.y * -128 * trace_result.fraction + eye_pos.y, local_angle.z * -128 * trace_result.fraction + eye_pos.z)
+    local camera_pos = vec3_t(local_angle.x * -128 * trace_result.fraction + eye_pos.x, local_angle.y * -128 * trace_result.fraction + eye_pos.y, local_angle.z * -128 * trace_result.fraction + eye_pos.z)
     return camera_pos
 end
 
 local function RenderViewHook(originalFunction)
     local originalFunction = originalFunction
     return function(this, hudViewSetup, nClearFlags, whatToDraw, someRandomBullshitThatGotAdded)
-        if not fake_duck_ref:get_value() or game_rules.get_prop("m_bIsValveDS")==0 then return originalFunction(this, hudViewSetup, nClearFlags, whatToDraw, someRandomBullshitThatGotAdded) end
+        if not fake_duck_ref:get() or game_rules.get_prop("m_bIsValveDS")==0 then return originalFunction(this, hudViewSetup, nClearFlags, whatToDraw, someRandomBullshitThatGotAdded) end
         local local_player = entity_list.get_local_player()
-        if not local_player:is_valid() then
+        if not local_player:is_alive() then
             return originalFunction(this, hudViewSetup, nClearFlags, whatToDraw, someRandomBullshitThatGotAdded)
         end
         local camera_pos = getCameraPositionInaccurate(true)
