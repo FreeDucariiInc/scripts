@@ -76,7 +76,7 @@ local function getCameraPositionInaccurate(force)
     local local_player = entity_list.get_local_player()
     local eye_pos = local_player:get_eye_position()
     if force then
-        eye_pos.z = local_player:get_prop("m_vecOrigin[2]")+64
+        eye_pos.z = local_player:get_prop("m_vecOrigin[2]")+60
     end
     if not client.is_in_thirdperson() then
         return eye_pos
