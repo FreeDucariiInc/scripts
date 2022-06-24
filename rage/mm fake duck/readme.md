@@ -6,7 +6,6 @@
 > version: 1.0
 
 ## prerequisite
-- [vector library](../../library/vector)
 - [hooking library](../../library/hooking%20library)
 
 ## description
